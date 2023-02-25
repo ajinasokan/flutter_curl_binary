@@ -16,6 +16,8 @@ Future<void> alliOS() async {
   await buildiOS();
   await combineStaticLibs();
 
+  await stripiOSBinary();
+
   await packFramework();
   await zipFramework();
 }
@@ -40,6 +42,15 @@ Future<void> combineStaticLibs() async {
     "build/ios/libquiche_${arch}_${platform.value}.a "
     "build/ios/libbrotlidec_${arch}_${platform.value}.a "
     "build/ios/libcurl_${arch}_${platform.value}.a",
+  );
+}
+
+Future<void> stripiOSBinary() async {
+  await run(
+    "strip -rSTx Curl_arm64_iphonesimulator.a\n"
+    "strip -rSTx Curl_x86_64_iphonesimulator.a\n"
+    "strip -rSTx Curl_arm64_iphone.a",
+    dir: "build/ios",
   );
 }
 

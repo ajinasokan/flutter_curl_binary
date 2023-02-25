@@ -38,6 +38,7 @@ void main(List<String> args) async {
     configCurl,
     buildCurl,
     combineStaticLibs,
+    stripiOSBinary,
     packFramework,
     zipFramework,
     packAAR,
