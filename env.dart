@@ -121,8 +121,7 @@ Future<void> collectPaths() async {
     strip = "$xcode/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip";
     ranlib = "$xcode/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib";
 
-    cFlags =
-        "-arch ${arch} -pipe -Os -gdwarf-2 -isysroot $iOSSDK -fembed-bitcode";
+    cFlags = "-arch ${arch} -pipe -Os -gdwarf-2 -isysroot $iOSSDK";
 
     if (platform == BuildPlatform.iPhone) {
       cFlags += " -miphoneos-version-min=${iOSMinVersion}";
