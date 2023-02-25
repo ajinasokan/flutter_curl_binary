@@ -4,6 +4,7 @@ Future<void> alliOS() async {
   await configiPhoneARM64();
   await collectPaths();
   await buildiOS();
+  await combineStaticLibs();
 
   await configiPhoneSimulatorARM64();
   await collectPaths();
@@ -13,8 +14,8 @@ Future<void> alliOS() async {
   await configiPhoneSimulatorx86();
   await collectPaths();
   await buildiOS();
-
   await combineStaticLibs();
+
   await packFramework();
   await zipFramework();
 }
