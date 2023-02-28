@@ -7,7 +7,7 @@ Future<void> nghttp2() async {
 
 Future<void> buildNghttp2() async {
   await run(
-    "make clean install",
+    "make -j $nproc clean install",
     dir: "nghttp2",
   );
   if (isDarwin) {
