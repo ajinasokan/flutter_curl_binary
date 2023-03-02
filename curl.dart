@@ -71,6 +71,7 @@ Future<void> configCurl() async {
     );
     await run(
       "./configure LDFLAGS=\"-framework Security -framework CoreFoundation\" --host=$tripple --prefix=\$(PWD)/build "
+      // "--disable-shared " # disabling shared lib make symbols go missing in the final app builds
       "--disable-debug "
       "--disable-dependency-tracking "
       "--disable-silent-rules "
