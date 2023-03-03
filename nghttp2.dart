@@ -12,7 +12,7 @@ Future<void> buildNghttp2() async {
   );
   if (isDarwin) {
     await run(
-        "cp nghttp2/build/lib/libnghttp2.a build/ios/libnghttp2_${arch}_${platform.value}.a");
+        "cp nghttp2/build/lib/libnghttp2.a $buildDir/libnghttp2_${arch}_${platform.value}.a");
   }
 }
 
@@ -21,9 +21,9 @@ Future<void> configNghttp2() async {
   await run("autoreconf -i", dir: "nghttp2");
   await run(
     isAndroid
-        ? "./configure --host=$tripple --disable-shared --without-systemd --without-jemalloc --prefix=${abs("nghttp2/build")} --enable-lib-only"
-        : "./configure --disable-shared --disable-app --disable-threads --enable-lib-only  --prefix=${abs("nghttp2/build")} --host=$tripple",
+        ? "./configure --host=$hostTripple --disable-shared --without-systemd --without-jemalloc --prefix=${abs("nghttp2/build")} --enable-lib-only"
+        : "./configure --disable-shared --disable-app --disable-threads --enable-lib-only  --prefix=${abs("nghttp2/build")} --host=$hostTripple",
     dir: "nghttp2",
-    env: isAndroid ? getAndroidEnv() : getiOSEnv(),
+    env: isAndroid ? getAndroidEnv() : getDarwinEnv(),
   );
 }

@@ -5,7 +5,9 @@ part 'env.dart';
 part 'repo.dart';
 part 'android.dart';
 part 'ios.dart';
+part 'macos.dart';
 part 'brotli.dart';
+part 'c-ares.dart';
 part 'nghttp2.dart';
 part 'quiche.dart';
 part 'curl.dart';
@@ -24,9 +26,12 @@ void main(List<String> args) async {
     configiPhoneARM64,
     configiPhoneSimulatorARM64,
     configiPhoneSimulatorx86,
+    configmacOSARM64,
+    configmacOSx86,
     collectPaths,
     buildAndroid,
     buildiOS,
+    buildmacOS,
     brotli,
     configBrotli,
     buildBrotli,
@@ -44,5 +49,9 @@ void main(List<String> args) async {
     packAAR,
     alliOS,
     allAndroid,
+    allmacOS,
+    configCares,
+    buildCares,
+    combinemacOSStaticLibs,
   ], args);
 }

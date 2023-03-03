@@ -6,7 +6,7 @@ Future<void> buildQuiche() async {
       "cargo ndk --target $androidArch --platform 21 -- build --package quiche --release --features ffi,pkg-config-meta,qlog\n"
       "rm -rf deps\n"
       "mkdir -p deps/boringssl/lib\n"
-      "cp \$(find target/$rustTripple -name libcrypto.a -o -name libssl.a) deps/boringssl/lib/\n"
+      "cp \$(find target/$llvmTripple -name libcrypto.a -o -name libssl.a) deps/boringssl/lib/\n"
       "cp -R quiche/deps/boringssl/src/include deps/boringssl/",
       dir: "quiche",
       env: {
@@ -15,25 +15,25 @@ Future<void> buildQuiche() async {
     );
     await run(
       "rm *.so",
-      dir: "${abs("quiche")}/target/$rustTripple/release",
+      dir: "${abs("quiche")}/target/$llvmTripple/release",
     );
   } else if (isDarwin) {
     await run(
       "cargo clean\n"
-      "cargo build --release --target $cctripple --features ffi,pkg-config-meta,qlog\n"
+      "cargo build --release --target $llvmTripple --features ffi,pkg-config-meta,qlog\n"
       "rm -rf deps\n"
       "mkdir -p deps/boringssl/lib\n"
-      "cp \$(find target/$cctripple -name libcrypto.a -o -name libssl.a) deps/boringssl/lib/\n"
+      "cp \$(find target/$llvmTripple -name libcrypto.a -o -name libssl.a) deps/boringssl/lib/\n"
       "cp -R quiche/deps/boringssl/src/include deps/boringssl/",
       dir: "quiche",
       // env: getiOSEnv(),
     );
     await run(
       "rm *.dylib",
-      dir: "${abs("quiche")}/target/$cctripple/release",
+      dir: "${abs("quiche")}/target/$llvmTripple/release",
     );
     await run(
-      "cp quiche/target/$cctripple/release/libquiche.a build/ios/libquiche_${arch}_${platform.value}.a",
+      "cp quiche/target/$llvmTripple/release/libquiche.a $buildDir/libquiche_${arch}_${platform.value}.a",
     );
   }
 }

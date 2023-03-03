@@ -4,12 +4,12 @@ Future<void> cloneRepos() async {
   await clone(
     dir: "c-ares",
     repo: "https://github.com/c-ares/c-ares",
-    tag: "cares-1_18_1",
+    tag: "cares-1_19_0",
   );
   await clone(
     dir: "nghttp2",
     repo: "https://github.com/nghttp2/nghttp2",
-    tag: "v1.51.0",
+    tag: "v1.52.0",
   );
   await clone(
     dir: "quiche",
@@ -25,14 +25,14 @@ Future<void> cloneRepos() async {
   await clone(
     dir: "curl",
     repo: "https://github.com/curl/curl",
-    tag: "curl-7_86_0",
+    tag: "curl-7_88_1",
   );
 }
 
 Future<void> setupDirs() async {
   await run(
     "rm -rf build\n"
-    "mkdir -p build/android/jni/armeabi-v7a build/android/jni/arm64-v8a build/android/jni/x86_64 build/ios",
+    "mkdir -p build/android/jni/armeabi-v7a build/android/jni/arm64-v8a build/android/jni/x86_64 build/ios build/macos",
   );
 }
 

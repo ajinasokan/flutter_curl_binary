@@ -36,8 +36,8 @@ Future<void> buildBrotli() async {
       dir: "brotli/out/installed/lib",
     );
     await run(
-      "cp brotli/out/installed/lib/libbrotlidec.a build/ios/libbrotlidec_${arch}_${platform.value}.a\n"
-      "cp brotli/out/installed/lib/libbrotlicommon.a build/ios/libbrotlicommon_${arch}_${platform.value}.a\n",
+      "cp brotli/out/installed/lib/libbrotlidec.a $buildDir/libbrotlidec_${arch}_${platform.value}.a\n"
+      "cp brotli/out/installed/lib/libbrotlicommon.a $buildDir/libbrotlicommon_${arch}_${platform.value}.a\n",
     );
   }
 }
@@ -51,9 +51,9 @@ Future<void> configBrotli() async {
     );
   } else if (isDarwin) {
     await run(
-      "cmake -DCMAKE_C_COMPILER=$cc -DCMAKE_OSX_SYSROOT=$iOSSDK -DCMAKE_OSX_ARCHITECTURES=$arch -DCMAKE_SYSTEM_NAME=Darwin -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./installed ..",
+      "cmake -DCMAKE_C_COMPILER=$cc -DCMAKE_OSX_SYSROOT=$darwinSDK -DCMAKE_OSX_ARCHITECTURES=$arch -DCMAKE_SYSTEM_NAME=Darwin -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./installed ..",
       dir: "brotli/out",
-      env: getiOSEnv(),
+      env: getDarwinEnv(),
     );
   }
 }
