@@ -122,6 +122,7 @@ Future<void> configCurl() async {
         "--without-librtmp "
         "--disable-manual "
         "--enable-optimize "
+        "--without-libidn2 "
         "--without-secure-transport "
         "--with-brotli=${abs("brotli")}/out/installed "
         "--with-nghttp2=${abs("nghttp2")}/build "
