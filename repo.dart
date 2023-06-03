@@ -4,17 +4,17 @@ Future<void> cloneRepos() async {
   await clone(
     dir: "c-ares",
     repo: "https://github.com/c-ares/c-ares",
-    tag: "cares-1_19_0",
+    tag: "cares-1_19_1",
   );
   await clone(
     dir: "nghttp2",
     repo: "https://github.com/nghttp2/nghttp2",
-    tag: "v1.52.0",
+    tag: "v1.53.0",
   );
   await clone(
     dir: "quiche",
     repo: "https://github.com/cloudflare/quiche",
-    tag: "0.16.0",
+    tag: "0.17.2",
     submodules: true,
   );
   await clone(
@@ -25,7 +25,7 @@ Future<void> cloneRepos() async {
   await clone(
     dir: "curl",
     repo: "https://github.com/curl/curl",
-    tag: "curl-7_88_1",
+    tag: "curl-8_1_2 ",
   );
 }
 
