@@ -34,6 +34,7 @@ Future<void> configCurl() async {
     );
     await run(
       "./configure LDFLAGS=\"-lm\" --host=$hostTripple --prefix=\$(PWD)/build "
+      // "--enable-shared "
       "--disable-debug "
       "--disable-dependency-tracking "
       "--disable-silent-rules "
@@ -54,6 +55,7 @@ Future<void> configCurl() async {
       "--without-secure-transport "
       "--without-ca-bundle "
       "--without-ca-path "
+      "--without-libpsl "
       "--with-ca-path=/system/etc/security/cacerts "
       "--with-brotli=${abs("brotli")}/out/installed "
       "--with-nghttp2=${abs("nghttp2")}/build "
@@ -92,6 +94,7 @@ Future<void> configCurl() async {
         "--enable-optimize "
         "--without-secure-transport "
         "--without-libidn2 "
+        "--without-libpsl "
         "--enable-ares=${abs("c-ares")}/build "
         "--with-brotli=${abs("brotli")}/out/installed "
         "--with-nghttp2=${abs("nghttp2")}/build "
@@ -123,6 +126,7 @@ Future<void> configCurl() async {
         "--disable-manual "
         "--enable-optimize "
         "--without-libidn2 "
+        "--without-libpsl "
         "--without-secure-transport "
         "--with-brotli=${abs("brotli")}/out/installed "
         "--with-nghttp2=${abs("nghttp2")}/build "

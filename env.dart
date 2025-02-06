@@ -1,7 +1,7 @@
 part of 'main.dart';
 
 String ndk =
-    "${Platform.environment['HOME']}/Library/Android/sdk/ndk/21.4.7075529";
+    "${Platform.environment['HOME']}/Library/Android/sdk/ndk/26.1.10909125";
 String toolchain = "$ndk/toolchains/llvm/prebuilt/darwin-x86_64/bin";
 
 String nproc = "10";
@@ -113,15 +113,15 @@ Future<void> collectPaths() async {
 
     cc = "$toolchain/$ndkTripple-clang";
     cxx = "$toolchain/$ndkTripple-clang++";
-    ld = "$toolchain/$hostTripple-ld";
-    ar = "$toolchain/$hostTripple-ar";
-    as = "$toolchain/$hostTripple-as";
-    objcopy = "$toolchain/$hostTripple-objcopy";
-    strip = "$toolchain/$hostTripple-strip";
-    ranlib = "$toolchain/$hostTripple-ranlib";
+    ld = "$toolchain/ld";
+    ar = "$toolchain/llvm-ar";
+    as = "$toolchain/llvm-as";
+    objcopy = "$toolchain/llvm-objcopy";
+    strip = "$toolchain/llvm-strip";
+    ranlib = "$toolchain/llvm-ranlib";
   } else if (isDarwin) {
     iOSMinVersion = "8.0";
-    macOSMinVersion = "10.11";
+    macOSMinVersion = "10.12";
 
     if (platform == BuildPlatform.iPhone) {
       darwinPlatform = "iPhoneOS";

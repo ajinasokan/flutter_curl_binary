@@ -38,6 +38,13 @@ Future<void> patchQuiche() async {
 // dart ffi doesn't work nicely with varargs in C. so adding these additional
 // helper functions to get explicit function params.
 Future<void> patchCurl() async {
+  File('curl/configure.ac').writeAsStringSync(
+    File('curl/configure.ac').readAsStringSync().replaceAll(
+          'LIB_BROTLI="-lbrotlidec"',
+          'LIB_BROTLI="-lbrotlidec -lbrotlicommon"',
+        ),
+  );
+
   File("curl/lib/setopt.c").writeAsStringSync(
     File("curl/lib/setopt.c").readAsStringSync().replaceAll(
       """break;

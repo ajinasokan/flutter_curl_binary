@@ -26,7 +26,9 @@ Future<void> buildQuiche() async {
       "cp \$(find target/$llvmTripple -name libcrypto.a -o -name libssl.a) deps/boringssl/lib/\n"
       "cp -R quiche/deps/boringssl/src/include deps/boringssl/",
       dir: "quiche",
-      // env: getiOSEnv(),
+      env: {
+        "IPHONEOS_DEPLOYMENT_TARGET": "12.2",
+      },
     );
     await run(
       "rm *.dylib",
