@@ -11,8 +11,6 @@ Future<void> allmacOS() async {
   await buildmacOS();
   await combinemacOSStaticLibs();
 
-  // await stripmacOSBinary();
-
   await packmacOSFramework();
   await zipmacOSFramework();
 }

@@ -25,14 +25,6 @@ Future<void> patchQuiche() async {
     let target = std::env::var("TARGET").unwrap();
     let os = std::env::var("CARGO_CFG_TARGET_OS").unwrap();"""),
   );
-
-//   File("quiche/Cargo.toml").writeAsStringSync(
-//       File("quiche/Cargo.toml").readAsStringSync().replaceAll(
-//     """[profile.release]
-// debug = true""",
-//     """[profile.release]
-// debug = false""",
-//   ));
 }
 
 // dart ffi doesn't work nicely with varargs in C. so adding these additional

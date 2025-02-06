@@ -34,7 +34,6 @@ Future<void> configCurl() async {
     );
     await run(
       "./configure LDFLAGS=\"-lm\" --host=$hostTripple --prefix=\$(PWD)/build "
-      // "--enable-shared "
       "--disable-debug "
       "--disable-dependency-tracking "
       "--disable-silent-rules "
@@ -74,7 +73,6 @@ Future<void> configCurl() async {
     if (isMacos) {
       await run(
         "./configure LDFLAGS=\"-lresolv -framework Security -framework CoreFoundation -framework SystemConfiguration\" --host=$hostTripple --prefix=\$(PWD)/build "
-        // "--disable-shared " # disabling shared lib make symbols go missing in the final app builds
         "--disable-debug "
         "--disable-dependency-tracking "
         "--disable-silent-rules "
@@ -107,7 +105,6 @@ Future<void> configCurl() async {
     } else {
       await run(
         "./configure LDFLAGS=\"-framework Security -framework CoreFoundation\" --host=$hostTripple --prefix=\$(PWD)/build "
-        // "--disable-shared " # disabling shared lib make symbols go missing in the final app builds
         "--disable-debug "
         "--disable-dependency-tracking "
         "--disable-silent-rules "
