@@ -37,6 +37,7 @@ Future<void> combinemacOSStaticLibs() async {
     "build/macos/libnghttp2_${arch}_${platform.value}.a "
     "build/macos/libquiche_${arch}_${platform.value}.a "
     "build/macos/libbrotlidec_${arch}_${platform.value}.a "
+    "build/macos/libbrotlicommon_${arch}_${platform.value}.a "
     "build/macos/libcares_${arch}_${platform.value}.a "
     "build/macos/libcurl_${arch}_${platform.value}.a",
   );

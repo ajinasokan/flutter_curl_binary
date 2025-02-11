@@ -38,21 +38,9 @@ Future<void> patchCurl() async {
   );
 
   File("curl/lib/setopt.c").writeAsStringSync(
-    File("curl/lib/setopt.c").readAsStringSync().replaceAll(
-      """break;
-  }
-
-  return result;
-}
-
-/*
- * curl_easy_setopt()""",
-      """break;
-  }
-
-  return result;
-}
-
+    File("curl/lib/setopt.c").readAsStringSync() +
+        """
+// EXTRAS FOR LIBCURL
 CURL_EXTERN CURLcode curl_easy_setopt_string(struct Curl_easy *data, CURLoption tag, char* val)
 {
   return curl_easy_setopt(data, tag, val);
@@ -72,9 +60,6 @@ CURL_EXTERN CURLcode curl_easy_getinfo_long(CURL *curl, CURLINFO info, long* val
 {
   return curl_easy_getinfo(curl, info, val);
 }
-
-/*
- * curl_easy_setopt()""",
-    ),
+""",
   );
 }

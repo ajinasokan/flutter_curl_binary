@@ -41,6 +41,7 @@ Future<void> combineStaticLibs() async {
     "build/ios/libnghttp2_${arch}_${platform.value}.a "
     "build/ios/libquiche_${arch}_${platform.value}.a "
     "build/ios/libbrotlidec_${arch}_${platform.value}.a "
+    "build/ios/libbrotlicommon_${arch}_${platform.value}.a "
     "build/ios/libcurl_${arch}_${platform.value}.a",
   );
 }
