@@ -1,7 +1,7 @@
 part of 'main.dart';
 
 String ndk =
-    "${Platform.environment['HOME']}/Library/Android/sdk/ndk/26.1.10909125";
+    "${Platform.environment['HOME']}/Library/Android/sdk/ndk/29.0.13113456";
 String toolchain = "$ndk/toolchains/llvm/prebuilt/darwin-x86_64/bin";
 
 String nproc = "10";
@@ -201,11 +201,5 @@ Map<String, String> getAndroidEnv() {
 }
 
 Map<String, String> getDarwinEnv() {
-  return {
-    "CC": cc,
-    "CXX": cxx,
-    "LD": ld,
-    "CFLAGS": cFlags,
-    "LDFLAGS": ldFlags,
-  };
+  return {"CC": cc, "CXX": cxx, "LD": ld, "CFLAGS": cFlags, "LDFLAGS": ldFlags};
 }
