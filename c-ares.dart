@@ -17,7 +17,7 @@ Future<void> configCares() async {
 
 Future<void> buildCares() async {
   await run(
-    "make -j $nproc clean install",
+    "make clean && make -j $nproc install",
     dir: "c-ares",
     env: isAndroid ? getAndroidEnv() : getDarwinEnv(),
   );

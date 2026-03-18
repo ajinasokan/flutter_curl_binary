@@ -1,8 +1,18 @@
 part of 'main.dart';
 
-// to use correct cmake target for boringssl
-// the logic in build.rs doesn't account for aarch64 simulators
+// exclude qlog-dancer from workspace since it depends on a private repo
+// and patch build.rs for correct cmake target for boringssl simulators
 Future<void> patchQuiche() async {
+  // exclude qlog-dancer from workspace
+  File("quiche/Cargo.toml").writeAsStringSync(
+    File("quiche/Cargo.toml").readAsStringSync().replaceAll(
+      '  "qlog-dancer",\n',
+      '',
+    ).replaceAll(
+      'exclude = ["fuzz", "tools/http3_test"]',
+      'exclude = ["fuzz", "tools/http3_test", "qlog-dancer"]',
+    ),
+  );
   File("quiche/quiche/src/build.rs").writeAsStringSync(
     File("quiche/quiche/src/build.rs").readAsStringSync().replaceAll(
       """// Hack for Xcode 10.1.
@@ -30,13 +40,6 @@ Future<void> patchQuiche() async {
 // dart ffi doesn't work nicely with varargs in C. so adding these additional
 // helper functions to get explicit function params.
 Future<void> patchCurl() async {
-  File('curl/configure.ac').writeAsStringSync(
-    File('curl/configure.ac').readAsStringSync().replaceAll(
-          'LIB_BROTLI="-lbrotlidec"',
-          'LIB_BROTLI="-lbrotlidec -lbrotlicommon"',
-        ),
-  );
-
   File("curl/lib/setopt.c").writeAsStringSync(
     File("curl/lib/setopt.c").readAsStringSync() +
         """
