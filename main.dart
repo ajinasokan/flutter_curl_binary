@@ -46,6 +46,7 @@ void main(List<String> args) async {
     stripiOSBinary,
     packFramework,
     zipFramework,
+    createArtifactBundleiOS,
     packAAR,
     alliOS,
     allAndroid,
@@ -53,5 +54,7 @@ void main(List<String> args) async {
     configCares,
     buildCares,
     combinemacOSStaticLibs,
+    zipmacOSFramework,
+    createArtifactBundlemacOS,
   ], args);
 }

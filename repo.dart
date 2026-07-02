@@ -9,7 +9,7 @@ Future<void> cloneRepos() async {
   await clone(
     dir: "nghttp2",
     repo: "https://github.com/nghttp2/nghttp2",
-    tag: "v1.68.0",
+    tag: "v1.69.0",
   );
   await clone(
     dir: "quiche",
@@ -25,7 +25,7 @@ Future<void> cloneRepos() async {
   await clone(
     dir: "curl",
     repo: "https://github.com/curl/curl",
-    tag: "curl-8_19_0",
+    tag: "curl-8_20_0",
   );
 }
 

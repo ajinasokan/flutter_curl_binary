@@ -34,6 +34,7 @@ Rust targets:
 - armv7-linux-androideabi
 - x86_64-linux-android
 - aarch64-apple-ios
+- aarch64-apple-ios-sim
 - x86_64-apple-ios
 - x86_64-apple-darwin
 - aarch64-apple-darwin

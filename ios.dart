@@ -20,6 +20,7 @@ Future<void> alliOS() async {
 
   await packFramework();
   await zipFramework();
+  await createArtifactBundleiOS();
 }
 
 Future<void> buildiOS() async {
@@ -83,6 +84,39 @@ Future<void> zipFramework() async {
     "zip -r Curl.xcframework.zip Curl.xcframework",
     dir: "build/ios",
   );
+}
+
+/// Wraps Curl.xcframework in an .artifactbundle and zips it for SPM remote binary targets.
+Future<void> createArtifactBundleiOS() async {
+  await run(
+    "rm -rf Curl.artifactbundle\n"
+    "mkdir -p Curl.artifactbundle\n"
+    "cp -r Curl.xcframework Curl.artifactbundle/\n"
+    "cat > Curl.artifactbundle/Info.json << 'EOF'\n"
+    "{\n"
+    "  \"schemeVersion\": \"1.0\",\n"
+    "  \"artifacts\": {\n"
+    "    \"Curl.xcframework\": {\n"
+    "      \"type\": \"xcframework\",\n"
+    "      \"settings\": {}\n"
+    "    }\n"
+    "  }\n"
+    "}\n"
+    "EOF\n"
+    "rm -f Curl.artifactbundle.zip\n"
+    "cd Curl.artifactbundle && zip -r ../Curl.artifactbundle.zip .",
+    dir: "build/ios",
+  );
+  // Compute SHA-256 and rename the artifactbundle zip
+  final checksum = runCapture(
+    "shasum -a 256 Curl.artifactbundle.zip | awk '{print \$1}'",
+    dir: "build/ios",
+  );
+  await run(
+    "mv Curl.artifactbundle.zip ios.${checksum}.artifactbundle.zip",
+    dir: "build/ios",
+  );
+  print("ios.${checksum}.artifactbundle.zip");
 }
 
 final plist = """<?xml version="1.0" encoding="UTF-8"?>

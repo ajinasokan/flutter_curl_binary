@@ -43,3 +43,14 @@ bool dirExists(String path) {
 String abs(String path) {
   return Directory(path).absolute.path;
 }
+
+/// Runs a shell command synchronously and returns its stdout as a trimmed string.
+String runCapture(String exec, {String? dir}) {
+  final result = Process.runSync("sh", ["-c", exec], workingDirectory: dir);
+  if (result.exitCode != 0) {
+    print(result.stderr);
+    print("\nCommand exited with non-zero exit code");
+    exit(1);
+  }
+  return result.stdout.toString().trim();
+}
