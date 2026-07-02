@@ -56,5 +56,6 @@ void main(List<String> args) async {
     combinemacOSStaticLibs,
     zipmacOSFramework,
     createArtifactBundlemacOS,
+    uploadRelease,
   ], args);
 }
