@@ -1,7 +1,8 @@
 part of 'main.dart';
 
+const String ndkVersion = "30.0.14904198";
 String ndk =
-    "${Platform.environment['HOME']}/Library/Android/sdk/ndk/29.0.13113456";
+    "${Platform.environment['HOME']}/Library/Android/sdk/ndk/$ndkVersion";
 String toolchain = "$ndk/toolchains/llvm/prebuilt/darwin-x86_64/bin";
 
 String nproc = "10";

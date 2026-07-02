@@ -92,7 +92,7 @@ Future<void> uploadRelease() async {
       "brotli: $brotliTag\n"
       "curl: $curlTag\n"
       "\n"
-      "NDK: 29.0.13113456\n"
+      "NDK: $ndkVersion\n"
       "Min iOS: 8.0\n"
       "Min macOS: 10.12";
 
