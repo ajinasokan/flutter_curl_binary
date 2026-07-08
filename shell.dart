@@ -28,9 +28,12 @@ Future<void> run(String exec, {Map<String, String>? env, String? dir}) async {
   );
   final out = stdout.addStream(proc.stdout);
   final err = stderr.addStream(proc.stderr);
-  if (await proc.exitCode != 0) {
-    await out;
-    await err;
+  final code = await proc.exitCode;
+  // Always drain both streams before returning, otherwise the next run()'s
+  // stdout.addStream() throws "StreamSink is already bound to a stream".
+  await out;
+  await err;
+  if (code != 0) {
     print("\nCommand exited with non-zero exit code");
     exit(1);
   }

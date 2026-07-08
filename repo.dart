@@ -105,18 +105,8 @@ Future<void> uploadRelease() async {
   // Collect and upload assets
   final List<String> assets = [
     "build/android/Curl.aar",
-    "build/ios/Curl.xcframework.zip",
-    "build/macos/Curl.framework.zip",
-    ...Directory("build/ios")
-        .listSync()
-        .whereType<File>()
-        .where((f) => f.path.contains(".artifactbundle.zip"))
-        .map((f) => f.path),
-    ...Directory("build/macos")
-        .listSync()
-        .whereType<File>()
-        .where((f) => f.path.contains(".artifactbundle.zip"))
-        .map((f) => f.path),
+    "build/ios/Curl.ios.xcframework.zip",
+    "build/macos/Curl.macos.xcframework.zip",
   ];
 
   for (final asset in assets) {

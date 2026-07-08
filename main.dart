@@ -44,9 +44,8 @@ void main(List<String> args) async {
     buildCurl,
     combineStaticLibs,
     stripiOSBinary,
-    packFramework,
-    zipFramework,
-    createArtifactBundleiOS,
+    packiOSXCFramework,
+    zipiOSXCFramework,
     packAAR,
     alliOS,
     allAndroid,
@@ -54,8 +53,9 @@ void main(List<String> args) async {
     configCares,
     buildCares,
     combinemacOSStaticLibs,
-    zipmacOSFramework,
-    createArtifactBundlemacOS,
+    stripmacOSBinary,
+    packmacOSXCFramework,
+    zipmacOSXCFramework,
     uploadRelease,
   ], args);
 }

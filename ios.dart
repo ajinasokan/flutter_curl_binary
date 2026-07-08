@@ -18,9 +18,8 @@ Future<void> alliOS() async {
 
   await stripiOSBinary();
 
-  await packFramework();
-  await zipFramework();
-  await createArtifactBundleiOS();
+  await packiOSXCFramework();
+  await zipiOSXCFramework();
 }
 
 Future<void> buildiOS() async {
@@ -56,107 +55,38 @@ Future<void> stripiOSBinary() async {
   );
 }
 
-Future<void> packFramework() async {
+/// Packs the per-slice static libs into a static-library xcframework.
+/// Device and simulator libs go in as separate `-library` slices; xcodebuild
+/// reads the platform from each archive's Mach-O. SPM links a static-library
+/// xcframework (LibraryPath = libCurl.a) instead of embedding it, which is what
+/// an FFI plugin using DynamicLibrary.process() needs.
+Future<void> packiOSXCFramework() async {
   await run(
-    "lipo Curl_arm64_iphonesimulator.a Curl_x86_64_iphonesimulator.a -create -output Curl_iphonesimulator.a",
-    dir: "build/ios",
-  );
-
-  // emulating what xcodebuild does
-  // xcodebuild -create-xcframework -framework ./CurliPhone.framework -framework ./CurliPhoneSimulator.framework -output Curl.xcframework
-
-  await run(
-    "rm -rf Curl.xcframework\n"
-    "mkdir Curl.xcframework\n"
-    "mkdir -p Curl.xcframework/ios-arm64/Curl.framework\n"
-    "mkdir -p Curl.xcframework/ios-arm64_x86_64-simulator/Curl.framework\n"
-    "cp Curl_arm64_iphone.a Curl.xcframework/ios-arm64/Curl.framework/Curl\n"
-    "cp Curl_iphonesimulator.a Curl.xcframework/ios-arm64_x86_64-simulator/Curl.framework/Curl",
-    dir: "build/ios",
-  );
-
-  File("build/ios/Curl.xcframework/Info.plist").writeAsStringSync(plist);
-}
-
-Future<void> zipFramework() async {
-  await run(
-    "rm -rf Curl.xcframework.zip\n"
-    "zip -r Curl.xcframework.zip Curl.xcframework",
+    // combine the simulator arches into one fat static lib
+    "lipo Curl_arm64_iphonesimulator.a Curl_x86_64_iphonesimulator.a -create -output Curl_iphonesimulator.a\n"
+    // name every slice's library libCurl.a so LibraryPath is consistent
+    "rm -rf slices Curl.xcframework\n"
+    "mkdir -p slices/device slices/sim\n"
+    "cp Curl_arm64_iphone.a slices/device/libCurl.a\n"
+    "cp Curl_iphonesimulator.a slices/sim/libCurl.a\n"
+    "xcodebuild -create-xcframework "
+    "-library slices/device/libCurl.a "
+    "-library slices/sim/libCurl.a "
+    "-output Curl.xcframework",
     dir: "build/ios",
   );
 }
 
-/// Wraps Curl.xcframework in an .artifactbundle and zips it for SPM remote binary targets.
-Future<void> createArtifactBundleiOS() async {
+Future<void> zipiOSXCFramework() async {
   await run(
-    "rm -rf Curl.artifactbundle\n"
-    "mkdir -p Curl.artifactbundle\n"
-    "cp -r Curl.xcframework Curl.artifactbundle/\n"
-    "cat > Curl.artifactbundle/Info.json << 'EOF'\n"
-    "{\n"
-    "  \"schemeVersion\": \"1.0\",\n"
-    "  \"artifacts\": {\n"
-    "    \"Curl.xcframework\": {\n"
-    "      \"type\": \"xcframework\",\n"
-    "      \"settings\": {}\n"
-    "    }\n"
-    "  }\n"
-    "}\n"
-    "EOF\n"
-    "rm -f Curl.artifactbundle.zip\n"
-    "cd Curl.artifactbundle && zip -r ../Curl.artifactbundle.zip .",
+    "rm -rf Curl.ios.xcframework.zip\n"
+    "zip -r Curl.ios.xcframework.zip Curl.xcframework",
     dir: "build/ios",
   );
-  // Compute SHA-256 and rename the artifactbundle zip
+  // SPM binaryTarget(url:) checksum is the SHA-256 of the zip.
   final checksum = runCapture(
-    "shasum -a 256 Curl.artifactbundle.zip | awk '{print \$1}'",
+    "shasum -a 256 Curl.ios.xcframework.zip | awk '{print \$1}'",
     dir: "build/ios",
   );
-  await run(
-    "mv Curl.artifactbundle.zip ios.${checksum}.artifactbundle.zip",
-    dir: "build/ios",
-  );
-  print("ios.${checksum}.artifactbundle.zip");
+  print("Curl.ios.xcframework.zip checksum: $checksum");
 }
-
-final plist = """<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>AvailableLibraries</key>
-	<array>
-		<dict>
-			<key>LibraryIdentifier</key>
-			<string>ios-arm64</string>
-			<key>LibraryPath</key>
-			<string>Curl.framework</string>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>arm64</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>ios</string>
-		</dict>
-		<dict>
-			<key>LibraryIdentifier</key>
-			<string>ios-arm64_x86_64-simulator</string>
-			<key>LibraryPath</key>
-			<string>Curl.framework</string>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>arm64</string>
-				<string>x86_64</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>ios</string>
-			<key>SupportedPlatformVariant</key>
-			<string>simulator</string>
-		</dict>
-	</array>
-	<key>CFBundlePackageType</key>
-	<string>XFWK</string>
-	<key>XCFrameworkFormatVersion</key>
-	<string>1.0</string>
-</dict>
-</plist>
-""";

@@ -6,8 +6,8 @@ Builds curl native lib in following config:
 - HTTP2 with nghttp2
 - Brotli
 - Android lib as AAR (arm64-v8a, armeabi-v7a, x86_64)
-- iOS lib as xcframework (arm64 iphoneos, arm64 iphonesimulator, x86_64 iphonesimulator)
-- macOS lib framework (arm64 Apple Silicon, x86_64 Intel)
+- iOS lib as static-library xcframework (arm64 iphoneos, arm64 iphonesimulator, x86_64 iphonesimulator)
+- macOS lib as static-library xcframework (arm64 Apple Silicon, x86_64 Intel)
 
 Binaries are available to download in the releases.
 
@@ -52,7 +52,7 @@ $ dart main.dart alliOS
 
 $ dart main.dart allmacOS
 
-# output in build/ios/Curl.framework
+# output in build/macos/Curl.xcframework
 
 $ dart main.dart allAndroid
 
